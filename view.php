@@ -30,7 +30,7 @@ $idComparo = isset($_GET['id']) ? filter($_GET['id']) : -1;
 $sql = $db->query("SELECT c.id, c.nom_st1, c.nom_st2, c.nom_vo, c.nom_sc, cf.idsc, cf.file, cf.idnonrelu, cf.idrelu, cf.idvo, c.code, c.discuss, cf.keep, cf.tags FROM comparos c "
                   ."JOIN compare cf ON cf.id = c.comparatif "
                   ."WHERE c.id = '{$idComparo}'");
-$comparo = mysql_fetch_assoc($sql);
+$comparo = $sql->fetch_assoc();
 
 // Si inexistants
 if ( ! $comparo ) {

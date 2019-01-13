@@ -29,7 +29,7 @@ if ( isset($_POST['login']) ) {
   
   try {
     $sql = $db->query("SELECT uid FROM users WHERE username = '{$username}' AND password = '{$pwd}'");
-    $data = mysql_fetch_assoc($sql);
+    $data = $sql->fetch_assoc();
     
     if ( ! $data ) throw new Exception("Logins invalides");
 

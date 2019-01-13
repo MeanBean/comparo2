@@ -44,13 +44,13 @@ if ( isset($_POST['set_dispatch']) ) {
 $mode = 0;
 $sql = $db->query("SELECT mode FROM dispatch_modes WHERE `index` = {$index} AND subid = '{$sub['subid']}' AND mode = '1'");
 
-if ( mysql_num_rows($sql) ) $mode = 1;
+if ( $sql->num_rows ) $mode = 1;
 
 // Jobs
 $js_data = array();
 $sql = $db->query("SELECT * FROM dispatch d JOIN users u ON u.uid = d.userid WHERE step = '{$index}' AND subid = '{$sub['subid']}' ORDER BY `index` ASC");
 $jobs = array();
-while ( $user = mysql_fetch_assoc($sql) ) {
+while ( $user = $sql->fetch_assoc() ) {
   $jobs[] = $user;
   $js_data[] = "[{$user['uid']},\"".addslashes($user['username'])."\",{$user['from']},{$user['to']}]";
 }
@@ -63,7 +63,7 @@ $users[] = array(intval($sub['userid']), $sub['username']);
 $sql = $db->query("SELECT u.uid, u.username FROM users_teams ut "
                 ."JOIN users u ON ut.userid = u.uid "
                 ."WHERE ut.teamid = '{$sub['teamid']}' AND status = '1' ORDER BY username ASC");
-while ( $user = mysql_fetch_assoc($sql) ) {
+while ( $user = $sql->fetch_assoc() ) {
   $users[] = array(intval($user['uid']), $user['username']);
 }
 

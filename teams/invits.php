@@ -38,7 +38,7 @@ $sql = $db->query("SELECT t.teamid, t.name as teamname, u.username as admin FROM
                   ."WHERE ut.userid = '{$user['uid']}' AND status = '0'");
 
 $invits = array();
-while ( $invit = mysql_fetch_assoc($sql) ) {
+while ( $invit = $sql->fetch_assoc() ) {
   $invits[] = $invit;
 }
 

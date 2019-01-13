@@ -19,7 +19,7 @@ $smarty->assign("css", array("styles/comparo.css"));
 $idGroup = isset($_GET['id']) ? filter($_GET['id']) : -1;
 $sql = $db->query("SELECT id, name, public_key FROM groups WHERE id = '{$idGroup}' LIMIT 1");
 
-$group = mysql_fetch_assoc($sql);
+$group = $sql->fetch_assoc();
 
 if ( ! $group ) {
   show_error("Groupe inconnu. Vérifiez l'adresse");
@@ -44,7 +44,7 @@ $sql = $db->query($query = "SELECT d.discuss, g.nom, co.id, co.nom_st1, co.nom_s
                 ."WHERE g.group = '{$group['id']}' ORDER BY g.added DESC");
 
 $comparos = array();
-while ( $comparo = mysql_fetch_assoc($sql) ) {
+while ( $comparo = $sql->fetch_assoc() ) {
   $c = array();
   $c['id'] = $comparo['id'];
   $c['originalName'] = $comparo['nom_st1'];

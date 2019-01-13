@@ -19,7 +19,7 @@ if ( $action == "last_posts" ) {
                     ."JOIN users u ON p.userid = u.uid "
                     ."WHERE p.subid = {$sub['subid']} AND post_time > FROM_UNIXTIME('{$time}') ORDER BY postid ASC");
   
-  while ( $post = mysql_fetch_assoc($sql) ) {
+  while ( $post = $sql->fetch_assoc() ) {
     echo "<post date=\"".convert($post['date'])."\" id=\"{$post['postid']}\" username=\"".convert($post['username'])."\">".convert(BBCode2Html(convert($post['post_text'])))."</post>\n";
   }
   

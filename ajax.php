@@ -8,7 +8,7 @@ if ( isset($_POST['action']) && $_POST['action'] == "set" ) {
   $privateKey = isset($_POST['privateKey']) ? filter($_POST['privateKey']) : -1;
   $comparo = isset($_POST['comparo']) ? filter($_POST['comparo']) : -1;
   $index = isset($_POST['index']) ? intval($_POST['index']) : -1;
-  $value = isset($_POST['value']) ? mysql_real_escape_string(trim($_POST['value'])) : "";
+  $value = isset($_POST['value']) ? $db->real_escape_string(trim($_POST['value'])) : "";
     
   // Vérification clé
   $idComparo = check_key($comparo, $privateKey);
@@ -38,7 +38,7 @@ elseif ( isset($_POST['action']) && $_POST['action'] == "discuss" ) {
   $pseudo = isset($_POST['pseudo']) ? trim($_POST['pseudo']) : "";
     
   $sql = $db->query("SELECT id FROM comparos WHERE id = '{$comparo}' AND discuss = '1'");
-  if ( mysql_num_rows($sql) ) {
+  if ( $sql->num_rows ) {
     $i = $db->insert("discuss", array("comparo" => $comparo, "ind" => $index, "value" => $value, "pseudo" => $pseudo, "heure" => date('c')));
     if ( $i ) { echo $db->insertid(); exit; }
     else { echo "Erreur lors de l'enregistrement du commentaire"; exit; }
@@ -55,16 +55,16 @@ elseif ( isset($_POST['action']) && $_POST['action'] == "get" ) {
   echo "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n";
   echo "<data>\n";
   $sql = $db->query("SELECT `index`, text FROM commentaires WHERE comparo = '{$comparo}'");
-  while ( $com = mysql_fetch_assoc($sql) ) {
+  while ( $com = $sql->fetch_assoc() ) {
     echo "<commentaire index=\"".$com['index']."\">".convert($com['text'])."</commentaire> \n";  
   }
   $sql = $db->query("SELECT id, ind, value, pseudo FROM discuss WHERE comparo = '{$comparo}' ORDER BY id ASC");
-  while ( $dis = mysql_fetch_assoc($sql) ) {
+  while ( $dis = $sql->fetch_assoc() ) {
     echo "<discuss id=\"{$dis['id']}\" index=\"".$dis['ind']."\" pseudo=\"".convert($dis['pseudo'])."\">".convert($dis['value'])."</discuss> \n";  
   }
   
   $sql = $db->query("SELECT idline, value FROM modified_lines WHERE comparoid = '{$comparo}' ORDER BY idline ASC");
-  while ( $mod = mysql_fetch_assoc($sql) ) {
+  while ( $mod = $sql->fetch_assoc() ) {
     echo "<modif idline=\"{$mod['idline']}\">".convert($mod['value'])."</modif> \n";  
   }
   

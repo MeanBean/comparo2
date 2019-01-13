@@ -7,7 +7,7 @@ $filename = isset($_GET['filename']) ? $_GET['filename'] : "unknown.srt";
 
 $sql = $db->query("SELECT sha1, size FROM files WHERE id = '{$id}'");
 
-$file = mysql_fetch_assoc($sql);
+$file = $sql->fetch_assoc();
 
 if ( $file ) {
   $file_path = $config['folder_uploads'].$file['sha1'].".gz";

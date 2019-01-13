@@ -33,7 +33,7 @@ if ( isset($_POST['send']) ) {
 $msgs = array();
 $sql = $db->query("SELECT u.username, p.post_text, p.postid, DATE_FORMAT(post_time, '%d/%m/%Y %H:%i') as date FROM posts p JOIN users u ON p.userid = u.uid WHERE p.subid = {$sub['subid']} ORDER BY postid ASC");
 
-while ( $post = mysql_fetch_assoc($sql) ) {
+while ( $post = $sql->fetch_assoc() ) {
   $post['html'] = BBCode2Html(convert($post['post_text']));
   $post['username'] = convert($post['username']);
   $msgs[] = $post;

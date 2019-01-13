@@ -9,7 +9,7 @@ if ( isset($_POST['addComparo']) ) {
   
   //Check group
   $sql = $db->query("SELECT id FROM groups WHERE id = '{$idGroup}'");
-  $group = mysql_fetch_assoc($sql);
+  $group = $sql->fetch_assoc();
   if ( ! $group )
     show_error("Le groupe spécifié n'existe pas.", "index.php");
   
@@ -20,7 +20,7 @@ if ( isset($_POST['addComparo']) ) {
   $comparoId = $matches[1];
   
   $sql = $db->query("SELECT id FROM comparos WHERE id = '{$comparoId}'");
-  $comparo = mysql_fetch_assoc($sql);
+  $comparo = $sql->fetch_assoc();
   if ( ! $comparo )
     show_error("Le Comparo envoyé n'existe pas.", $idGroup != false ? "group-".$idGroup.".html" : "index.php");
     
@@ -45,7 +45,7 @@ elseif ( isset($_POST['createGroup']) ) {
   do {
     $rand = rand_str(10, true);
     $sql = $db->query("SELECT id FROM groups WHERE id='{$rand}'");
-  } while ( mysql_num_rows($sql) > 0 );
+  } while ( $sql->num_rows > 0 );
   
   $db->insert("groups", array("id" => $rand, "name" => $name, "public_key" => get_key()));
   

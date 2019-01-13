@@ -27,14 +27,14 @@ function save_file($src) {
     
   $sql = $db->query("SELECT id FROM files WHERE sha1 = '{$sha1}'");
   
-  if ( mysql_num_rows($sql) > 0 ) {
+  if ( $sql->num_rows > 0 ) {
     return mysql_result($sql, 0);
   }
   
   do {
     $rand = rand_str(10, true);
     $sql2 = $db->query("SELECT id FROM files WHERE id = '{$rand}' LIMIT 1");
-  } while ( mysql_num_rows($sql2) > 0 );
+  } while ( $sql2->num_rows > 0 );
   $db->query("INSERT INTO files (id, sha1, size) VALUES ('{$rand}', '{$sha1}', '{$size}')");
     
   return $rand;
@@ -86,7 +86,7 @@ function find_comparo($sha1_1, $sha1_2, $sha1_vo, $sha1_sc, $charset, $keep = tr
                     .($sha1_sc !== false ? " AND f4.sha1 = '{$sha1_sc}'": " AND c.idsc = ''")
                     ." AND c.keep = '{$keep}' and c.tags = '{$tags}' AND c.highTolerance = '{$highTol}'");
 
-  $result = mysql_fetch_assoc($sql);
+  $result = $sql->fetch_assoc();
   if ( $result )
     return $result['id'];
 
@@ -99,7 +99,7 @@ function create_comparo($idComparatif, $nom1, $nom2, $nomvo, $nomsc) {
   do {
     $rand = rand_str(10, true);
     $sql = $db->query("SELECT id FROM comparos WHERE id='{$rand}'");
-  } while ( mysql_num_rows($sql) > 0 );
+  } while ( $sql->num_rows > 0 );
   
   $code = get_key();
   

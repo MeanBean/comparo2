@@ -16,7 +16,7 @@ if ( count($user['teams']) ) {
                     ."LEFT OUTER JOIN (SELECT * FROM (SELECT subid, episode, saison, episodename, created, teamid FROM subtitles ORDER BY status DESC, created DESC) _s GROUP BY teamid) s ON s.teamid = t.teamid "
                     ."WHERE t.teamid IN (".implode(", ", $user['teams']).")");
 
-  while ( $t = mysql_fetch_assoc($sql) ) {
+  while ( $t = $sql->fetch_assoc() ) {
     $team = array("name" => $t['name'],
                   "id" => $t['teamid'],
                   "count_all" => intval($t['count_all']),

@@ -20,7 +20,7 @@ if ( ! in_array($tid, $user['teams'], true) ) {
 
 // Team
 $sql = $db->query("SELECT teamid, name, t.userid, u.username FROM teams t JOIN users u ON u.uid = t.userid WHERE teamid = '{$tid}'");
-$team = mysql_fetch_assoc($sql);
+$team = $sql->fetch_assoc();
 
 $isadmin = $team['userid'] == $user['uid'];
 $smarty->assign("isadmin", $isadmin);
@@ -44,12 +44,12 @@ if ( isset($_POST['delete']) && $isadmin ) {
 
 // Invite a member
 if ( isset($_POST['invit']) && $isadmin ) {
-  $sql = $db->query("SELECT uid FROM users WHERE username = '".mysql_real_escape_string($_POST['invit'])."' LIMIT 1");
-  if ( mysql_num_rows($sql) ) {
+  $sql = $db->query("SELECT uid FROM users WHERE username = '".$db->real_escape_string($_POST['invit'])."' LIMIT 1");
+  if ( $sql->num_rows ) {
     $user = mysql_result($sql, 0);
   
     $sql = $db->query("SELECT t.teamid FROM teams t LEFT OUTER JOIN users_teams ut ON t.teamid = ut.teamid WHERE t.teamid = '{$tid}' AND (ut.userid = '{$user}' OR t.userid = '{$user}') LIMIT 1");
-    if ( mysql_num_rows($sql) > 0 ) {
+    if ( $sql->num_rows > 0 ) {
       $errors[] = "Cet utilisateur appartient déjà à cette team";
     }
     else {

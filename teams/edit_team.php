@@ -26,7 +26,7 @@ if ( $tid !== false ) {
     $sql = $db->query("SELECT `index`, name, color FROM teams_steps WHERE teamid = '{$tid}'");
     $stepColor = array_fill(0, 5, "#ffffff");
     $stepName = array_fill(0, 5, "");
-    while ( $step = mysql_fetch_assoc($sql) ) {
+    while ( $step = $sql->fetch_assoc() ) {
       $stepColor[$step['index']] = $step['color'];
       $stepName[$step['index']] = $step['name'];
     }
@@ -75,8 +75,8 @@ if ( isset($_POST['createTeam']) || isset($_POST['editTeam']) ) {
     }
     else {
       $sql = $db->query("SELECT teamid FROM teams WHERE teamid = '".intval($team['teamid'])."' AND userid = '{$user['uid']}'");
-      if ( mysql_num_rows($sql) > 0 ) {
-        $sql = $db->query($query = "UPDATE teams SET name = '".mysql_real_escape_string($team['teamName'])."' WHERE teamid = '".intval($team['teamid'])."'");
+      if ( $sql->num_rows > 0 ) {
+        $sql = $db->query($query = "UPDATE teams SET name = '".$db->real_escape_string($team['teamName'])."' WHERE teamid = '".intval($team['teamid'])."'");
         $sql = $db->query("DELETE FROM teams_steps WHERE teamid = '".intval($team['teamid'])."'");
         for ( $i = 0; $i < 5; $i++ ) {
           if ( $team['stepName'][$i] != "" ) 

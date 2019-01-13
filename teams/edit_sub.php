@@ -15,7 +15,7 @@ if ( $subid !== false ) {
   $sql = $db->query("SELECT s.subid, t.teamid, s.episode, s.saison as season, s.episodename, s.status, s.timing FROM subtitles s "
                     ."JOIN teams t ON t.teamid = s.teamid "
                     ."WHERE t.userid = '{$user['uid']}' AND s.subid = '{$subid}'");
-  if ( $data = mysql_fetch_assoc($sql) ) {
+  if ( $data = $sql->fetch_assoc() ) {
     $subtitle = $data;
   }
   else {
@@ -33,7 +33,7 @@ if ( isset($_GET['action']) && $_GET['action'] == "updated" ) {
 // Recherche des teams possibles
 $teams = array();
 $sql = $db->query("SELECT name, teamid FROM teams WHERE userid = '{$user['uid']}'");
-while ( $team = mysql_fetch_assoc($sql) ) {
+while ( $team = $sql->fetch_assoc() ) {
   $teams[$team['teamid']] = $team['name'];
 }
 

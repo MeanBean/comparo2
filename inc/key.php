@@ -13,9 +13,9 @@ function get_key() {
   if ( isset($_COOKIE['comparoPublicKey']) && isset($_COOKIE['comparoPrivateKey']) ) {
     // Si la cle existe
     $sql = $db->query("SELECT public, private FROM userkeys "
-                      ."WHERE public = '".mysql_real_escape_string($_COOKIE['comparoPublicKey'])."' AND private = '".$_COOKIE['comparoPrivateKey']."'");
+                      ."WHERE public = '".$db->real_escape_string($_COOKIE['comparoPublicKey'])."' AND private = '".$_COOKIE['comparoPrivateKey']."'");
     
-    $key = mysql_fetch_assoc($sql);
+    $key = $sql->fetch_assoc();
     if ( $key ) {
       setcookie("comparoPublicKey", $key['public'], (time() + 60*60*24*30*2));
       setcookie("comparoPrivateKey", $key['private'], (time() + 60*60*24*30*2));
@@ -26,7 +26,7 @@ function get_key() {
   do {
     $public = rand_str(10, true);
     $sql = $db->query("SELECT public FROM userkeys WHERE public = '{$public}'");
-  } while ( mysql_num_rows($sql) );
+  } while ( $sql->num_rows );
     
   $private = rand_str(16, true);
   
@@ -41,9 +41,9 @@ function check_key($idComparo, $privateKey) {
   global $db;
   $sql = $db->query("SELECT c.id FROM comparos c "
                     ."JOIN userkeys k ON k.public = c.code "
-                    ."WHERE c.id = '".mysql_real_escape_string($idComparo)."' AND k.private = '".mysql_real_escape_string($privateKey)."'");
+                    ."WHERE c.id = '".$db->real_escape_string($idComparo)."' AND k.private = '".$db->real_escape_string($privateKey)."'");
 
-  $data = mysql_fetch_assoc($sql);
+  $data = $sql->fetch_assoc();
   
   if ( $data ) {
     return $data['id'];

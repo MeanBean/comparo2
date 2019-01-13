@@ -14,7 +14,7 @@ $alerts = array();
 function get_team_infos($tid, $infos) {
   global $db;
   $sql = $db->query("SELECT ".implode(", ", $infos)." FROM teams WHERE teamid = '".intval($tid)."'");
-  return mysql_fetch_assoc($sql);
+  return $sql->fetch_assoc();
 }
 
 function get_sub() {
@@ -35,7 +35,7 @@ function get_sub() {
   
   $steps = array();
   $sql = $db->query("SELECT `index`, name FROM teams_steps WHERE teamid = '{$sub['teamid']}'");
-  while ( $step = mysql_fetch_assoc($sql) ) {
+  while ( $step = $sql->fetch_assoc() ) {
     $steps[$step['index']] = $step['name'];
   }
   $sub['steps'] = $steps;

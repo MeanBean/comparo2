@@ -9,17 +9,16 @@ class db {
     
     $this->config = $config;
     
-    $this->connexion = mysql_connect($this->config['mysql_server'], $this->config['mysql_user'], $this->config['mysql_pass']) or die("Connection au serveur SQL impossible");
-    mysql_select_db($this->config['mysql_db'], $this->connexion) or die("Impossible de selectionner la base de donnees");  
+    $this->connexion = new mysqli($this->config['mysql_server'], $this->config['mysql_user'], $this->config['mysql_pass'], $this->config['mysql_db']) or die("Connection au serveur SQL impossible / Impossible de selectionner la base de donnees");
   }
   
   function query($query) {
-    $sql = mysql_query($query, $this->connexion) or die(mysql_error());
+    $sql = $this->connexion->query($query) or die(mysql_error());
     return $sql;
   }
   
   function insert($table, $data) {
-    $data = array_map('mysql_real_escape_string', $data);
+    $data = array_map(array($this->connexion, 'real_escape_string'), $data);
     
     $champs = implode(", ", array_keys($data));
     $values = '"'.implode('", "', $data).'"';
@@ -28,7 +27,7 @@ class db {
   }
 
   function update($table, $data, $where = false) {
-    $data = array_map('mysql_real_escape_string', $data);
+    $data = array_map(array($this->connexion, 'real_escape_string'), $data);
     
     $values = array();
     foreach ( $data as $champ => $value ) {
@@ -40,7 +39,7 @@ class db {
   }
   
   function insertid() {
-    return mysql_insert_id($this->connexion);
+    return $this->connexion->insert_id();
   }
   
   function affectedrows() {
@@ -52,15 +51,15 @@ class db {
   }
   
   function escape($str) {
-    return mysql_real_escape_string($str);
+    return $this->connexion->real_escape_string($str);
   }
   
   function fetch_assoc($query) {
-    return mysql_fetch_assoc($query);
+    return $query->fetch_assoc();
   }
   
   function num_rows($query) {
-    return mysql_num_rows($query);
+    return $query->num_rows;
   }
   
 }
