@@ -76,7 +76,7 @@ if ( isset($_POST['createTeam']) || isset($_POST['editTeam']) ) {
     else {
       $sql = $db->query("SELECT teamid FROM teams WHERE teamid = '".intval($team['teamid'])."' AND userid = '{$user['uid']}'");
       if ( $sql->num_rows > 0 ) {
-        $sql = $db->query($query = "UPDATE teams SET name = '".$db->real_escape_string($team['teamName'])."' WHERE teamid = '".intval($team['teamid'])."'");
+        $sql = $db->query($query = "UPDATE teams SET name = '".$db->escape($team['teamName'])."' WHERE teamid = '".intval($team['teamid'])."'");
         $sql = $db->query("DELETE FROM teams_steps WHERE teamid = '".intval($team['teamid'])."'");
         for ( $i = 0; $i < 5; $i++ ) {
           if ( $team['stepName'][$i] != "" ) 

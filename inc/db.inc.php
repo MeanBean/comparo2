@@ -39,7 +39,7 @@ class db {
   }
   
   function insertid() {
-    return $this->connexion->insert_id();
+    return $this->connexion->insert_id;
   }
   
   function affectedrows() {

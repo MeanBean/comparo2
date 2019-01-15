@@ -8,7 +8,7 @@ if ( isset($_POST['action']) && $_POST['action'] == "set" ) {
   $privateKey = isset($_POST['privateKey']) ? filter($_POST['privateKey']) : -1;
   $comparo = isset($_POST['comparo']) ? filter($_POST['comparo']) : -1;
   $index = isset($_POST['index']) ? intval($_POST['index']) : -1;
-  $value = isset($_POST['value']) ? $db->real_escape_string(trim($_POST['value'])) : "";
+  $value = isset($_POST['value']) ? $db->escape(trim($_POST['value'])) : "";
     
   // Vérification clé
   $idComparo = check_key($comparo, $privateKey);

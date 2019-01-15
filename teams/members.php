@@ -44,9 +44,9 @@ if ( isset($_POST['delete']) && $isadmin ) {
 
 // Invite a member
 if ( isset($_POST['invit']) && $isadmin ) {
-  $sql = $db->query("SELECT uid FROM users WHERE username = '".$db->real_escape_string($_POST['invit'])."' LIMIT 1");
+  $sql = $db->query("SELECT uid FROM users WHERE username = '".$db->escape($_POST['invit'])."' LIMIT 1");
   if ( $sql->num_rows ) {
-    $user = mysql_result($sql, 0);
+    $user = $sql->fetch_assoc();
   
     $sql = $db->query("SELECT t.teamid FROM teams t LEFT OUTER JOIN users_teams ut ON t.teamid = ut.teamid WHERE t.teamid = '{$tid}' AND (ut.userid = '{$user}' OR t.userid = '{$user}') LIMIT 1");
     if ( $sql->num_rows > 0 ) {

@@ -28,7 +28,7 @@ function save_file($src) {
   $sql = $db->query("SELECT id FROM files WHERE sha1 = '{$sha1}'");
   
   if ( $sql->num_rows > 0 ) {
-    return mysql_result($sql, 0);
+    return $sql->fetch_assoc();
   }
   
   do {

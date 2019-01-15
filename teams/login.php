@@ -2,7 +2,7 @@
 
 include_once '../includes.php';
 
-$username = $db->real_escape_string(trim($_POST['username']));
+$username = $db->escape(trim($_POST['username']));
 $password = sha1(trim($_POST['password']).$config['grain_de_sel']);
 
 $sql = $db->query("SELECT uid FROM users WHERE username = '{$username}' AND password = '{$password}'");

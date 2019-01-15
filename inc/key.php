@@ -13,7 +13,7 @@ function get_key() {
   if ( isset($_COOKIE['comparoPublicKey']) && isset($_COOKIE['comparoPrivateKey']) ) {
     // Si la cle existe
     $sql = $db->query("SELECT public, private FROM userkeys "
-                      ."WHERE public = '".$db->real_escape_string($_COOKIE['comparoPublicKey'])."' AND private = '".$_COOKIE['comparoPrivateKey']."'");
+                      ."WHERE public = '".$db->escape($_COOKIE['comparoPublicKey'])."' AND private = '".$_COOKIE['comparoPrivateKey']."'");
     
     $key = $sql->fetch_assoc();
     if ( $key ) {
@@ -41,7 +41,7 @@ function check_key($idComparo, $privateKey) {
   global $db;
   $sql = $db->query("SELECT c.id FROM comparos c "
                     ."JOIN userkeys k ON k.public = c.code "
-                    ."WHERE c.id = '".$db->real_escape_string($idComparo)."' AND k.private = '".$db->real_escape_string($privateKey)."'");
+                    ."WHERE c.id = '".$db->escape($idComparo)."' AND k.private = '".$db->escape($privateKey)."'");
 
   $data = $sql->fetch_assoc();
   
