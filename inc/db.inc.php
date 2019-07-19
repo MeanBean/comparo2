@@ -13,7 +13,7 @@ class db {
   }
   
   function query($query) {
-    $sql = $this->connexion->query($query) or die(mysql_error());
+    $sql = $this->connexion->query($query) or die($this->connexion->error);
     return $sql;
   }
   
