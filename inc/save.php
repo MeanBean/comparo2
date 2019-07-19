@@ -59,7 +59,7 @@ function save_comparo($data, $id_1, $id_2, $id_vo, $id_sc, $charset, $keep = tru
                                 "idvo" => ( $id_vo !== false ? $id_vo : ""),
                                 "idsc" => ( $id_sc !== false ? $id_sc : ""),
                                 "charset" => $charset,
-                                "file" => $fn,
+                                "file" => basename($fn, ".gz"),
                                 "keep" => $keep,
                                 "tags" => $tags,
                                 "highTolerance" => $highTol,
@@ -110,8 +110,8 @@ function create_comparo($idComparatif, $nom1, $nom2, $nomvo, $nomsc) {
                                 "nom_st2" => $nom2,
                                 "nom_vo" => $nomvo,
                                 "nom_sc" => $nomsc,
-                                "created" => date('c'),
-                                "last_view" => date('c'),
+                                "created" => date('Y-m-d H:i:s'),
+                                "last_view" => date('Y-m-d H:i:s'),
                                 "discuss" => 1));
 
   return $rand;
