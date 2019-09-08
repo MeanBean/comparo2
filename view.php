@@ -126,8 +126,8 @@ foreach ( $lines as $id => $line ) {
     
     
     if ( $rs1 != $rs2 && isset($line['version']) && $line['version'] >= 1) {
-      $lines[$id]['rs1_display'] = array('class' => 'rs_'+$rs1, 'text' => rsgroup_to_text($rs1));
-      $lines[$id]['rs2_display'] = array('class' => 'rs_'+$rs2, 'text' => rsgroup_to_text($rs2));
+      $lines[$id]['rs1_display'] = array('class' => 'rs_'.$rs1, 'text' => rsgroup_to_text($rs1));
+      $lines[$id]['rs2_display'] = array('class' => 'rs_'.$rs2, 'text' => rsgroup_to_text($rs2));
     }  
   }
   
