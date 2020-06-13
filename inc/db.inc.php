@@ -43,7 +43,7 @@ class db {
   }
   
   function affectedrows() {
-    return mysql_affected_rows($this->connexion);
+    return $this->connexion->affected_rows;
   }
   
   function free($req) {
