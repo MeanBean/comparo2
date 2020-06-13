@@ -2,7 +2,6 @@
 
 include_once 'includes.php';
 include_once 'inc/key.php';
-
 error_reporting(0);
 if ( isset($_POST['action']) && $_POST['action'] == "set" ) {
   $privateKey = isset($_POST['privateKey']) ? filter($_POST['privateKey']) : -1;
@@ -20,8 +19,8 @@ if ( isset($_POST['action']) && $_POST['action'] == "set" ) {
       else { echo "Erreur lors de l'enregistrement du commentaire"; exit; }
     }
     else {   
-      $i = $db->query("INSERT INTO commentaires (comparo, `index`, text, heure) VALUES ('{$idComparo}', '{$index}', '{$value}', '".date('c')."') "
-                      ."ON DUPLICATE KEY UPDATE text = '{$value}', heure = '".date('c')."'");
+      $i = $db->query("INSERT INTO commentaires (comparo, `index`, text, heure) VALUES ('{$idComparo}', '{$index}', '{$value}', '".date('Y-m-d H:i:s')."') "
+                      ."ON DUPLICATE KEY UPDATE text = '{$value}', heure = '".date('Y-m-d H:i:s')."'");
       if ( $i ) { echo "ok"; exit; }
       else { echo "Erreur lors de l'enregistrement du commentaire"; exit; }
     }
@@ -39,7 +38,7 @@ elseif ( isset($_POST['action']) && $_POST['action'] == "discuss" ) {
     
   $sql = $db->query("SELECT id FROM comparos WHERE id = '{$comparo}' AND discuss = '1'");
   if ( $sql->num_rows ) {
-    $i = $db->insert("discuss", array("comparo" => $comparo, "ind" => $index, "value" => $value, "pseudo" => $pseudo, "heure" => date('c')));
+    $i = $db->insert("discuss", array("comparo" => $comparo, "ind" => $index, "value" => $value, "pseudo" => $pseudo, "heure" => date('Y-m-d H:i:s')));
     if ( $i ) { echo $db->insertid(); exit; }
     else { echo "Erreur lors de l'enregistrement du commentaire"; exit; }
   }
