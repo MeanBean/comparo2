@@ -70,5 +70,5 @@ function addslashes_a($str) {
 function save_error($string) {
   global $db;
   
-  $db->insert("erreurs", array("error" => $string, "heure" => date('c')));
+  $db->insert("erreurs", array("error" => $string, "heure" => date('Y-m-d H:i:s')));
 }

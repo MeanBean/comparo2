@@ -23,7 +23,7 @@ if ( isset($_POST['send']) ) {
     $errors[] = "Le message ne doit pas être vide";
   }
   else {
-    $db->insert("posts", array("subid" => $sub['subid'], "userid" => $user['uid'], "post_time" => date('c'), "post_text" => $msg));
+    $db->insert("posts", array("subid" => $sub['subid'], "userid" => $user['uid'], "post_time" => date('Y-m-d H:i:s'), "post_text" => $msg));
     $id = $db->insertid();
     header("location:forum.php?sid={$sub['subid']}#p-{$id}");
     exit;

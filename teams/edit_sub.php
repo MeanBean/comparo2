@@ -69,7 +69,7 @@ if ( isset($_POST['createSub']) || isset($_POST['editSub']) ) {
                                    "saison" => $subtitle['season'],
                                    "episodename" => $subtitle['episodename'],
                                    "status" => $subtitle['status'],
-                                   "created" => date('c'),
+                                   "created" => date('Y-m-d H:i:s'),
                                    "timing" => $subtitle['timing']));
     header("location:subtitles.php?tid={$subtitle['teamid']}&action=added");
     exit;
